@@ -45,7 +45,9 @@ public class A1Adept {
 				if (total > maxPurchase) {
 					maxPurchase = total;
 					maxName = fullName;
-				} else if (total < minPurchase) {
+				}  
+				
+				if (total < minPurchase) {
 					minPurchase = total;
 					minName = fullName;
 				}
