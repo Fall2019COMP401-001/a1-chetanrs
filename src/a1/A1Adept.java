@@ -8,59 +8,60 @@ public class A1Adept {
 
 	public static void main(String[] args) {
 		
-		Scanner scan = new Scanner(System.in);
+		Scanner scan = new Scanner (System.in);
 		
-		int numberOfItems = scan.nextInt();
+		Map<String, Double> customers = new HashMap<String, Double>();
 		Map<String, Double> items = new HashMap<String, Double>();
 		
-		for (int i = 0; i < numberOfItems; i++) {
-			String item = scan.next();
-			double price = scan.nextDouble();
-			items.put(item, price);
-			
-		}	
+		String minCustomer = "";
+		String maxCustomer = "";
 		
-		int numberOfCustomers = scan.nextInt();
-		Map<String, Double> customers = new HashMap<String, Double>();
+		double minTotal = 10000;
+		double maxTotal = 0;
 		
-		String maxName = null;
-		double maxPurchase = 0;
-		String minName = null;
-		double minPurchase = 10000;
-		double averageTotal = 0;
+		double cumulativeTotal = 0;
 		
-		for (int i = 0; i < numberOfCustomers; i++) {
-			String fName = scan.next();
-			String lName = scan.next();
-			String fullName = fName + " " + lName;
-			double total = 0;
-			
-			int purchaseCount = scan.nextInt();
-			
-			for (int j = 0; j < purchaseCount; j++) {
-				int itemCount = scan.nextInt();
-				String itemName = scan.next();
-				total += itemCount * items.get(itemName);
-				
-				if (total > maxPurchase) {
-					maxPurchase = total;
-					maxName = fullName;
-				}  
-				
-				if (total < minPurchase) {
-					minPurchase = total;
-					minName = fullName;
-				}
-			}
-			
-			customers.put(fullName, total);
-			averageTotal += total;
+		int itemsInStore = scan.nextInt();
+		
+		for (int i = 0; i < itemsInStore; i++) {
+			String itemName = scan.next();
+			double itemPrice = scan.nextDouble();
+			items.put(itemName, itemPrice);
 		}
 		
-		double average = averageTotal / numberOfCustomers;
+		int customerCount = scan.nextInt();
 		
-		System.out.println("Biggest: " + maxName + " (" + String.format("%.2f", customers.get(maxName)) + ")");
-		System.out.println("Smallest: " + minName + " (" + String.format("%.2f", customers.get(minName)) + ")");	
+		for (int i = 0; i < customerCount; i++) {
+			String customerName = scan.next() + " " + scan.next();
+			int customerProducts = scan.nextInt();
+			double customerTotal = 0;
+			
+			for (int j = 0; j < customerProducts; j++) {
+				int customerItemCount = scan.nextInt();
+				String customerItemName = scan.next();
+				customerTotal += customerItemCount * items.get(customerItemName);
+			}
+			
+			if (customerTotal > maxTotal) {
+				maxTotal = customerTotal;
+				maxCustomer = customerName;
+			}
+			
+			if (customerTotal < minTotal) {
+				minTotal = customerTotal;
+				minCustomer = customerName;
+			}
+			
+			customers.put(customerName, customerTotal);
+			cumulativeTotal += customerTotal;
+			
+		
+		}
+		
+		double average = cumulativeTotal/customerCount;
+		
+		System.out.println("Biggest: " + maxCustomer + " (" + String.format("%.2f", maxTotal) + ")");
+		System.out.println("Smallest: " + minCustomer + " (" + String.format("%.2f", minTotal) + ")");
 		System.out.println("Average: " + String.format("%.2f", average));
 	}
 		
