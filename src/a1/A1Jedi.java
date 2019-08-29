@@ -16,7 +16,7 @@ public class A1Jedi {
 		
 		for (int i = 0; i < itemsInStore; i++) {
 			String itemName = scan.next();
-			double itemPrice = scan.nextDouble();
+			double price = scan.nextDouble();
 			
 			inventory[i] = new objectInStore(itemName);
 			
