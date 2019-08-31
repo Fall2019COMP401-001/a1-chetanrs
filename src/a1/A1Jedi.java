@@ -10,59 +10,61 @@ public class A1Jedi {
 	public static void main(String[] args) {
 		
 		Scanner scan = new Scanner(System.in);
-		 
+		
 		int itemsInStore = scan.nextInt();
-		objectInStore[] inventory = new objectInStore[itemsInStore];
+		Food[] inventory = new Food[itemsInStore];
 		
 		for (int i = 0; i < itemsInStore; i++) {
 			String itemName = scan.next();
+			inventory[i] = new Food(itemName);
+			
 			double price = scan.nextDouble();
-			
-			inventory[i] = new objectInStore(itemName);
-			
 		}
 		
 		int customerCount = scan.nextInt();
 		
 		for (int i = 0; i < customerCount; i++) {
-			String fullName = scan.next() + " " + scan.next();
-			int customerProducts = scan.nextInt();
+			String cName = scan.next() + " " + scan.next();
 			
-			for (int j = 0; j < customerProducts; j++) {
-				int customerItemCount = scan.nextInt();
-				String customerItemName = scan.next();
+			int purchaseAmount = scan.nextInt();
+			
+			for (int j = 0; j < purchaseAmount; j++) {
+				int amountBought = scan.nextInt();
+				String itemBought = scan.next();
 				
-				for (int k = 0; k < itemsInStore; k++) {
-					if (inventory[k].name.equals(customerItemName)) {
-						inventory[k].numberSold += customerItemCount;
-						inventory[k].totalCustomers += 1;
+				for (Food item : inventory) {
+					if (item.name.equals(itemBought)) {
+						item.amountBought += amountBought;
+						item.customerList.put(cName, 1);
 					}
 				}
 			}
 		}
 		
 		for (int i = 0; i < itemsInStore; i++) {
-			objectInStore currentItem = inventory[i];
 			
-			if (currentItem.totalCustomers == 0) {
-				System.out.println("No customers bought " + currentItem.name);
+			boolean isEmpty = inventory[i].amountBought == 0;
+			
+			if (isEmpty) {
+				System.out.println("No customers bought " + inventory[i].name);
 			} else {
-				System.out.println(currentItem.totalCustomers + " customers bought " + currentItem.numberSold + " " + currentItem.name);
+				System.out.println(inventory[i].customerList.size() + " customers bought " +
+						inventory[i].amountBought + " " + inventory[i].name);
 			}
+			
 		}
-		
 		
 	}
 }
 
-class objectInStore {
+class Food {
 	String name;
-	int numberSold;
-	int totalCustomers;
+	int amountBought;
+	Map<String, Integer> customerList;
 	
-	public objectInStore (String itemName) {
+	public Food(String itemName) {
 		name = itemName;
-		numberSold = 0;
-		totalCustomers = 0;
+		amountBought = 0;
+		customerList = new HashMap<String, Integer>();
 	}
 }
